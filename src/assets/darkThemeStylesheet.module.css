@@ -9,3 +9,13 @@
 .dark_card{
     background-color: #2B3844!important;
 }
+.dark_moon_icon{
+    color: #fff;
+}
+.dark_search_line{
+    background-color: #2B3844!important;
+    color: #fff!important;
+}
+.dark_search_line::placeholder {
+    color: #fff!important;
+}

@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Header from '../components/elements/Header';
 import SearchLine from '../components/elements/SearchLine';
+import Filter from '../components/elements/Filter';
 import { ThemeContext } from "../App";
 import lightStyles from '../assets/lightThemeStylesheet.module.css';
 import darkStyles from '../assets/darkThemeStylesheet.module.css';
@@ -15,7 +16,8 @@ export function MainPage() {
     const [searchData, setSearchData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const {theme, setTheme} = useContext(ThemeContext);
+    const [region, setRegion] = useState(null);
+    const {theme} = useContext(ThemeContext);
     const getCardRowsData = (data) => {
         let interAr=[];
         let datAr=[];
@@ -28,9 +30,31 @@ export function MainPage() {
         });
         return datAr;
     }
-
-    const getSearchData = ()=>{
-        setSearchData(data);
+    
+    const getFilterData = (region) => {
+        if (region=="America") region = region+"s";
+        fetch(`https://restcountries.com/v2/region/${region}
+        `).then((response) => {
+            if (!response.ok) {
+                throw new Error(
+                  `This is an HTTP error: The status is ${response.status}`
+                );
+              }
+              return response.json();
+        })
+        .then((actData) => {
+            setData(getCardRowsData(actData));
+            setError(null);
+        }
+        )
+        .catch((err) => {
+            setError(err.message);
+            setData(null);
+          })
+          .finally(() => {
+            setLoading(false);
+            setRegion(null);
+          });
     }
 
     useEffect(() => {
@@ -57,13 +81,22 @@ export function MainPage() {
           });
        }, []);
        useEffect(()=>{
-           console.log(searchData);
        }, [theme, searchData])
+       useEffect(()=>{
+        if (region && region !== "Filter By Region") getFilterData(region)
+        else if ( region === "Filter By Region"){
+            setRegion(null);
+        }
+    }, [region])
 
     return(
         <Container lg="12">
             <Header />
-            <SearchLine dataInf={data} setSearchData={setSearchData} />
+            <Container style={{display: "flex", justifyContent: "space-between"}}>
+                <SearchLine dataInf={data} setSearchData={setSearchData} />
+                <Filter setRegion={setRegion}/>
+            </ Container>
+            <Container style={{marginTop: "30px"}}>
             {loading && <div className={(theme==="dark"? darkStyles.info_container: lightStyles.info_container)} style={
                     {width: "100%",
                     height: "90vh",
@@ -93,27 +126,26 @@ export function MainPage() {
 
             {searchData ?
             (searchData && searchData.map((cardRow, index)=>{
-                console.log(1)
-                return (<Row className="mt-10">
+                return (<Row className="mt-10" style={{marginTop: "30px"}} key={index}>
                     {
                     cardRow.map((elem)=>{
-                        return(<Col lg="3" md='6' xs='12'>
+                        return(<Col lg="3" md='6' xs='12' key={elem.name+index}>
                             <CountryCard countryName={elem.name} flag={elem.flag} region={elem.region} population={elem.population} capital={elem.capital}/>
                         </Col>)
                     })}
                 </Row>)
-            })):
-            (data&!searchData && data.map((cardRow, index)=>{
-                console.log(2)
-                return (<Row className="mt-10">
+            }))
+            :
+            (data && data.map((cardRow, index)=>{
+                return (<Row className="mt-10" style={{marginTop: "30px"}} key={index}>
                     {
                     cardRow.map((elem)=>{
-                        return(<Col lg="3" md='6' xs='12'>
+                        return(<Col lg="3" md='6' xs='12' key={elem.name+index}>
                             <CountryCard countryName={elem.name} flag={elem.flag} region={elem.region} population={elem.population} capital={elem.capital}/>
                         </Col>)
                     })}
                 </Row>)
                 }))}
-
+            </Container>
         </Container>)
 }

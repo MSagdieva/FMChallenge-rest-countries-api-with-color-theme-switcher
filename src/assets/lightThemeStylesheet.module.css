@@ -2,10 +2,39 @@
     background-color: #FAFAFA;
     color: #111517;
 }
+.header_container{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 0;
+}
 .info_container{
     background-color: #FAFAFA;
     color: #111517;
 }
 .light_card{
     background-color: #fff!important;
+}
+.light_moon_icon{
+    color: #111517;
+}
+.theme_change_button{
+    cursor: pointer;
+}
+.light_search_line{
+}
+.search_line_container{
+    position: relative;
+    padding: 15px 0 30px 0;
+}
+.search_line{
+    width: 50%!important;
+    padding-left: 50px !important;
+    position: relative;
+}
+.search_image{
+    position: absolute;
+    z-index: 2;
+    left: 20px;
+    top: 20px;
+    width: 15px;
 }
