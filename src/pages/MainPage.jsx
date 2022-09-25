@@ -14,6 +14,7 @@ import darkStyles from '../assets/darkThemeStylesheet.module.css';
 export function MainPage() {
     const [data, setData] = useState(null);
     const [searchData, setSearchData] = useState(null);
+    const [filterData, setFilterData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [region, setRegion] = useState(null);
@@ -27,12 +28,13 @@ export function MainPage() {
                 datAr.push(interAr);
                 interAr=[];
             }
+            return datAr;
         });
         return datAr;
     }
     
     const getFilterData = (region) => {
-        if (region=="America") region = region+"s";
+        if (region==="America") region = region+"s";
         fetch(`https://restcountries.com/v2/region/${region}
         `).then((response) => {
             if (!response.ok) {
@@ -43,13 +45,13 @@ export function MainPage() {
               return response.json();
         })
         .then((actData) => {
-            setData(getCardRowsData(actData));
+            setFilterData(getCardRowsData(actData));
             setError(null);
         }
         )
         .catch((err) => {
             setError(err.message);
-            setData(null);
+            setFilterData(null);
           })
           .finally(() => {
             setLoading(false);
@@ -81,13 +83,13 @@ export function MainPage() {
           });
        }, []);
        useEffect(()=>{
-       }, [theme, searchData])
-       useEffect(()=>{
         if (region && region !== "Filter By Region") getFilterData(region)
         else if ( region === "Filter By Region"){
             setRegion(null);
+            setFilterData(null);
+            setData(data);
         }
-    }, [region])
+    }, [theme, searchData, filterData, region, data])
 
     return(
         <Container lg="12">
@@ -124,8 +126,18 @@ export function MainPage() {
                     </div>
                 )}
 
-            {searchData ?
-            (searchData && searchData.map((cardRow, index)=>{
+            { (searchData || filterData) ?
+            ( searchData ? (searchData && searchData.map((cardRow, index)=>{
+                return (<Row className="mt-10" style={{marginTop: "30px"}} key={index}>
+                    {
+                    cardRow.map((elem)=>{
+                        return(<Col lg="3" md='6' xs='12' key={elem.name+index}>
+                            <CountryCard countryName={elem.name} flag={elem.flag} region={elem.region} population={elem.population} capital={elem.capital}/>
+                        </Col>)
+                    })}
+                </Row>)
+            })):
+            (filterData && filterData.map((cardRow, index)=>{
                 return (<Row className="mt-10" style={{marginTop: "30px"}} key={index}>
                     {
                     cardRow.map((elem)=>{
@@ -135,6 +147,7 @@ export function MainPage() {
                     })}
                 </Row>)
             }))
+            )
             :
             (data && data.map((cardRow, index)=>{
                 return (<Row className="mt-10" style={{marginTop: "30px"}} key={index}>

@@ -19,3 +19,10 @@
 .dark_search_line::placeholder {
     color: #fff!important;
 }
+.filter{
+    background-color: #2B3844!important;
+    color: #fff!important;
+}
+.form_select{
+    background-image: url("../../src/images/logos/expand-more.svg")!important;
+}

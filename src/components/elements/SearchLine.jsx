@@ -16,6 +16,7 @@ export default function SearchLine( props) {
               datAr.push(interAr);
               interAr=[];
           }
+          return datAr;
       });
       return datAr;
   }
