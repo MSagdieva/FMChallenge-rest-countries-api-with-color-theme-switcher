@@ -1,0 +1,37 @@
+.modal-header .btn-close{
+    position: absolute;
+    left: 100px;
+    top: 170px;
+    z-index: 3;
+    width: 100px;
+}
+
+.modal-header.light_header .btn-close{
+    color: black;
+    background: url('../../src/images/logos/light_back_arrow.svg') no-repeat;
+ }
+ 
+ .modal-header.dark_header .btn-close{
+    color: white;
+    background: url('../../src/images/logos/dark_back_arrow.svg') no-repeat;
+ }
+
+.modal-header .btn-close:after{
+    display: block;
+    width: 100px;
+    padding: 10px;
+    content: "Back";
+    border-radius: 5px;
+    position: absolute;
+    top: -12px;
+    left: 0;
+}
+
+.modal-header.dark_header .btn-close{
+    background-color: rgba(211, 211, 211, 0.534);
+}
+
+.button_border_countries{
+    cursor: pointer;
+    border-radius: 5px;
+}

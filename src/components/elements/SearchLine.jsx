@@ -3,23 +3,11 @@ import dark_search_logo from "../../images/logos/dark_search_logo.svg";
 import light_search_logo from "../../images/logos/light_search_logo.svg";
 import lightStyles from '../../assets/lightThemeStylesheet.module.css';
 import darkStyles from '../../assets/darkThemeStylesheet.module.css';
+import { getCardRowsData } from '../../pages/MainPage'
 import { ThemeContext } from "../../App";
 import { useContext } from "react";
 
 export default function SearchLine( props) {
-    const getCardRowsData = (data) => {
-      let interAr=[];
-      let datAr=[];
-      data.map((elem, index)=>{
-          interAr.push(elem);
-          if (interAr.length===4 || index===data.length-1) {
-              datAr.push(interAr);
-              interAr=[];
-          }
-          return datAr;
-      });
-      return datAr;
-  }
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
