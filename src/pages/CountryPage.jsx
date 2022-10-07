@@ -48,7 +48,7 @@ export function CountryPage(props) {
               <Header />
             </Modal.Header>
             <Modal.Body>
-            <Container style={{marginTop: "50px"}}>
+            <Container style={{marginTop: "75px"}}>
                 <Row>
                     <Col lg={6} md={12}>
                         <img style={{width: "100%", borderRadius: "5px"}} src={props.countryData?.flag} alt="flag_image"/>
@@ -98,9 +98,9 @@ export function CountryPage(props) {
                             </Col>
                         </Row>
                         <b>Border countries: </b>
-                                    <span>{props.countryData?.borders.map((code)=>
+                                    {props.countryData?.borders ? (<span>{props.countryData?.borders.map((code)=>
                                         {return(<button className={(theme==="dark" ? darkStyles.button_border_countries: lightStyles.button_border_countries)+" button_border_countries"} onClick={()=>{props.setModalInfo(searchBorderCountry(code))}} style={{borderColor:"transparent", marginRight: "10px", marginTop: "10px"}}>{getFullBorderCountryName(code)}</button>)}
-                                    )}</span> 
+                                    )}</span>):<></> }
                     </Col>
                 </Row>
             </Container>

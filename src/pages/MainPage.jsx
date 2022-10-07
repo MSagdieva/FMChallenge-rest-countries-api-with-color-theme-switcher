@@ -10,6 +10,7 @@ import { CountryPage } from "./CountryPage";
 import { ThemeContext } from "../App";
 import lightStyles from '../assets/lightThemeStylesheet.module.css';
 import darkStyles from '../assets/darkThemeStylesheet.module.css';
+import "../assets/generalStyles.css"
 
 export const getCardRowsData = (data) => {
         let interAr=[];
@@ -34,10 +35,9 @@ export function MainPage() {
     const [region, setRegion] = useState(null);
     const [openCountryModal, setOpenCountryModal] = useState(false);
     const [modalInfo, setModalInfo] = useState(null);
+    const [searchHeight, setSearchHeight] = useState(0);
     const {theme} = useContext(ThemeContext);
-    
-
-    
+        
     function handleShow(country) {
         setModalInfo(country);
         setOpenCountryModal(true);
@@ -49,7 +49,7 @@ export function MainPage() {
                     {
                     cardRow.map((elem)=>{
                         return(<Col lg="3" md='6' xs='12' key={elem.name+index}>
-                            <div onClick={()=>{handleShow(elem)}}>
+                            <div className="country_card_container" onClick={()=>{handleShow(elem)}}>
                             <CountryCard countryName={elem.name} flag={elem.flag} region={elem.region} population={elem.population} capital={elem.capital} />
                             </div>
                         </Col>)
@@ -106,17 +106,33 @@ export function MainPage() {
           });
        }, []);
        useEffect(()=>{
+        let App = document.getElementById('App');
+        let AppHeight = App.getBoundingClientRect();
+        if (AppHeight.height < document.documentElement.clientHeight){
+            setSearchHeight(document.documentElement.clientHeight);
+        }
         if (region && region !== "Filter By Region") getFilterData(region)
         else if ( region === "Filter By Region"){
             setRegion(null);
             setFilterData(null);
             setData(data);
         }
-    }, [theme, searchData, filterData, region, data, openCountryModal])
+    }, [theme, searchData, filterData, region, data, openCountryModal, searchHeight])
+    useEffect(()=>{
+        let App = document.getElementById('App');
+        let AppHeight = App.getBoundingClientRect();
+        console.log(searchHeight, document.documentElement.clientHeight);
+        if (searchHeight){
+            console.log(AppHeight);
+            AppHeight.height = searchHeight; 
+        }
+    }, [searchHeight])
+
+
 
     return(
         <>
-        <Container lg="12">
+        <Container lg="12" className="content">
             <Header />
             <Container style={{display: "flex", justifyContent: "space-between"}}>
                 <SearchLine dataInf={data} setSearchData={setSearchData} />
