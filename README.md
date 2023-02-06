@@ -33,7 +33,8 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![](https://github.com/MSagdieva/FMChallenge-rest-countries-api-with-color-theme-switcher/blob/a309aa6a55ac2e61cedfffb471b8a5414293a437/Countries%20Rest%20Api.png)
+![](https://github.com/MSagdieva/FMChallenge-rest-countries-api-with-color-theme-switcher/blob/a309aa6a55ac2e61cedfffb471b8a5414293a437/Countries%20Rest%20Api%20Dark.png)
 
 ### Links
 
